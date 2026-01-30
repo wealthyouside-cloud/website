@@ -15,7 +15,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Tamurov Finance — Practical Financial Education",
+  title: "Wealth You",
   description: "Practical financial education. Clear steps. Real accountability."
 };
 
