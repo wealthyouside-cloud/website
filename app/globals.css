@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f4f0ea;
+  --ink: #161412;
+  --muted: #6b655f;
+  --accent: #6b1e2d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.hairline {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(8px);
+}
+
+.nav-3d {
+  perspective: 900px;
+}
+
+.nav-3d-card {
+  transform-style: preserve-3d;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(107, 30, 45, 0.2);
+}
