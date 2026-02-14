@@ -10,11 +10,15 @@ type NavItem = {
 
 const items: NavItem[] = [
   { label: "FAQ", href: "#faq" },
-  { label: "Work with us", href: "#work" },
+  { label: "Opportunities", href: "#work" },
   { label: "About us", href: "#about" }
 ];
 
-export default function LeftNav3D() {
+type LeftNav3DProps = {
+  onNavigate?: (href: string) => void;
+};
+
+export default function LeftNav3D({ onNavigate }: LeftNav3DProps) {
   const [active, setActive] = useState<string>("#faq");
 
   useEffect(() => {
@@ -28,11 +32,12 @@ export default function LeftNav3D() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(`#${entry.target.id}`);
-          }
-        });
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) {
+          setActive(`#${visible[0].target.id}`);
+        }
       },
       { rootMargin: "-40% 0px -50% 0px", threshold: 0.1 }
     );
@@ -49,6 +54,7 @@ export default function LeftNav3D() {
       <div className="flex flex-col gap-3">
         {items.map((item, index) => {
           const isActive = active === item.href;
+          const isHighlight = item.label === "Opportunities";
           return (
             <motion.a
               key={item.href}
@@ -57,7 +63,11 @@ export default function LeftNav3D() {
                 isActive
                   ? "bg-white shadow-soft"
                   : "bg-white/60 hover:bg-white"
-              }`}
+              } ${isHighlight ? "border-accent/30 bg-white/90" : ""}`}
+              onClick={() => {
+                setActive(item.href);
+                onNavigate?.(item.href);
+              }}
               style={{
                 transform: `rotateY(-12deg) translateZ(${isActive ? 30 : 10}px) translateX(${index * 4}px)`
               }}

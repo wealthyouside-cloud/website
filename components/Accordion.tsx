@@ -10,34 +10,34 @@ type Item = {
 
 const items: Item[] = [
   {
-    question: "What makes your program different?",
-    answer:
-      "We focus on fundamentals and repeatable systems, not hype. Every lesson maps to a practical decision you can make immediately."
-  },
-  {
     question: "Who is this for?",
     answer:
-      "Builders, creatives, and professionals who want clear financial literacy, better cash flow, and confident investing habits."
+      "Our services are designed for individuals who want to build long-term wealth, support their income, and manage their finances with confidence. Whether you are just starting out or looking to improve your current financial strategy, we provide professional guidance tailored to your goals."
   },
   {
-    question: "Do you offer 1:1 support?",
+    question: "Why should I trust you?",
     answer:
-      "Yes. We offer focused coaching sessions and a guided roadmap based on your current stage and goals."
-  },
-  {
-    question: "How long does it take to see progress?",
-    answer:
-      "Most members report clarity within the first week and measurable improvements within a month of consistent action."
-  },
-  {
-    question: "Can I cancel anytime?",
-    answer:
-      "Yes. All plans are month-to-month with clear terms and zero hidden fees."
+      "At Wealth You, we focus on education, transparency, and long-term relationships. We work alongside 70+ of the largest financial companies across North America, giving clients access to a wide range of trusted financial solutions. Our goal is to help you understand your options clearly so you can make confident financial decisions."
   },
   {
     question: "What if I am brand new to investing?",
     answer:
-      "You will start with a fundamentals track that covers budgeting, risk, and simple portfolio construction."
+      "That’s perfectly fine. We believe that anyone can build a successful investment plan with the right guidance. Even if you have little or no prior investing experience, we’ll help you understand the basics and create a clear, manageable plan tailored to your situation."
+  },
+  {
+    question: "Do I need a lot of money to start investing?",
+    answer:
+      "No. Long-term investing and wealth building are not about starting with a large sum — they are about consistency and strategic planning. Even investing as little as $50 per month can grow into a meaningful amount over time when supported by a long-term investment strategy."
+  },
+  {
+    question: "Do you offer 1-on-1 meetings?",
+    answer:
+      "Yes. We offer personalized 1-on-1 consultations to understand your goals and provide financial education and strategy guidance. Most of the meetings are held virtually for convenience and flexibility."
+  },
+  {
+    question: "Do I need to pay anything?",
+    answer:
+      "No. Consultations and educational sessions are provided at no cost. If you decide to move forward with financial products or services, any associated fees will always be explained clearly in advance."
   }
 ];
 

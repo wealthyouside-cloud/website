@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, Check, Sparkle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import BadgeCTA from "@/components/BadgeCTA";
 import LeftNav3D from "@/components/LeftNav3D";
 import Section from "@/components/Section";
@@ -9,6 +10,33 @@ import StatsStrip from "@/components/StatsStrip";
 import Accordion from "@/components/Accordion";
 
 export default function Home() {
+  const cleanupRef = useRef<(() => void) | null>(null);
+
+  const handleFocusNav = (href: string) => {
+    const id = href.replace("#", "");
+    cleanupRef.current?.();
+    document.body.setAttribute("data-focus", id);
+
+    const clear = () => {
+      document.body.removeAttribute("data-focus");
+      window.removeEventListener("wheel", clear);
+      window.removeEventListener("touchmove", clear);
+      window.removeEventListener("keydown", onKey);
+      cleanupRef.current = null;
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "];
+      if (keys.includes(event.key)) {
+        clear();
+      }
+    };
+
+    window.addEventListener("wheel", clear, { passive: true });
+    window.addEventListener("touchmove", clear, { passive: true });
+    window.addEventListener("keydown", onKey);
+    cleanupRef.current = clear;
+  };
   const fadeUp = {
     hidden: { opacity: 0, y: 18 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.2, 0.7, 0.2, 1] } }
@@ -27,13 +55,13 @@ export default function Home() {
           Wealth You
           </div>
           <nav className="hidden md:flex items-center gap-6 text-xs uppercase tracking-[0.2em] text-muted">
-            <a className="focus-ring" href="#offer">
+            <a className="focus-ring" href="#offer" onClick={() => handleFocusNav("#offer")}>
               Offer
             </a>
-            <a className="focus-ring" href="#work">
-              Work
+            <a className="focus-ring" href="#work" onClick={() => handleFocusNav("#work")}>
+              Opportunities
             </a>
-            <a className="focus-ring" href="#faq">
+            <a className="focus-ring" href="#faq" onClick={() => handleFocusNav("#faq")}>
               FAQ
             </a>
           </nav>
@@ -50,17 +78,20 @@ export default function Home() {
       <Section className="relative">
         <div className="mx-auto grid min-h-[85vh] max-w-7xl grid-cols-12 gap-6 px-6 pb-10 pt-14">
           <div className="col-span-12 lg:col-span-3">
-            <LeftNav3D />
+            <LeftNav3D onNavigate={handleFocusNav} />
             <div className="mt-6 flex flex-wrap gap-2 lg:hidden">
               {[
                 { label: "FAQ", href: "#faq" },
-                { label: "Work with us", href: "#work" },
+                { label: "Opportunities", href: "#work" },
                 { label: "About us", href: "#about" }
               ].map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="focus-ring rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em]"
+                  onClick={() => handleFocusNav(item.href)}
+                  className={`focus-ring rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+                    item.label === "Opportunities" ? "border-accent/30 bg-white/90" : ""
+                  }`}
                 >
                   {item.label}
                 </a>
@@ -103,7 +134,7 @@ export default function Home() {
                   href="#offer"
                   className="focus-ring inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em]"
                 >
-                  View curriculum
+                  Sign UP
                 </a>
               </motion.div>
             </motion.div>
@@ -119,15 +150,15 @@ export default function Home() {
                   Featured path
                 </div>
                 <h2 className="font-display text-2xl font-semibold">
-                  The Calm Money Blueprint
+                  Financial Needs Analysis
                 </h2>
                 <p className="mt-2 text-sm text-muted">
-                  A focused 6-week system for optimizing income, automating
-                  saving, and investing with clarity.
+                  An FNA reveals financial blind spots, protects your future, and builds a clear roadmap toward security and
+                  long-term wealth.
                 </p>
                 <div className="mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-accent">
                   <Sparkle className="h-4 w-4" />
-                  Guided checkpoints
+                  Returns with little to no risk
                 </div>
               </div>
               <div className="flex flex-col items-end justify-between gap-6">
@@ -153,7 +184,7 @@ export default function Home() {
                   href="#work"
                   className="focus-ring inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-bg transition-transform duration-200 hover:-translate-y-0.5"
                 >
-                  Book a meeting
+                  DO YOUR FNA WITH US
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
               </div>
@@ -183,15 +214,15 @@ export default function Home() {
                   What we provide
                 </div>
                 <div className="text-2xl font-display font-semibold">
-                  A visual learning system for real life decisions.
+                  The best roadmap for your financial goals and objectives.
                 </div>
                 <div className="mt-6 rounded-2xl border border-black/10 bg-white/70 p-5">
                   <div className="text-xs uppercase tracking-[0.2em] text-muted">
-                    Curriculum snapshot
+                    snapshot
                   </div>
                   <div className="mt-3 text-sm text-muted">
-                    Income clarity, cash flow automation, risk management,
-                    investing fundamentals, and accountability support.
+                    Income Clarity, Cash Flow Automation, Risk Management,
+                    Investing Fundamentals, Accountability Support and Financial Needs Analysis(FNA).
                   </div>
                 </div>
               </div>
@@ -230,10 +261,10 @@ export default function Home() {
               </div>
               <ul className="mt-4 space-y-3 text-sm text-muted">
                 {[
-                  "Weekly clarity check-ins",
-                  "Debt and investing playbooks",
-                  "Personalized action scorecards",
-                  "Private community reviews"
+                  "Personalized Financial Needs Analysis",
+                  "Goal-Based Strategy Sessions",
+                  "Tax Reduction & Cash-Flow Optimization",
+                  "Investment Guidance"
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2">
                     <Check className="mt-0.5 h-4 w-4 text-accent" />
@@ -294,16 +325,14 @@ export default function Home() {
               Financial literacy built for modern lives.
             </h2>
             <p className="mt-4 max-w-xl text-sm text-muted">
-              Grow Finance is a boutique education studio. We specialize in
-              clear frameworks, calm decision making, and a community that keeps
-              you accountable.
+              At Wealth You, we provide financial education for those who feel they’re meant for more - more stability, more freedom, more control over their future.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {[
                 "Transparent guidance",
-                "Action-driven checklists",
-                "Modern investing logic",
-                "Long-term stability"
+                "Financial Mentorship",
+                "Investing Mindset",
+                "Long-term Confidence"
               ].map((item) => (
                 <div
                   key={item}
@@ -327,8 +356,7 @@ export default function Home() {
               </div>
               <div className="mt-4 h-40 rounded-2xl border border-black/10 bg-gradient-to-br from-[#f5efe7] to-[#e6dbcf]" />
               <p className="mt-4 text-sm text-muted">
-                Small team. High-touch guidance. Global perspective with
-                evidence-based strategies.
+                Professional Team with Rich expirience. Detailed guidance. Long-term perspective with evidence based strategies from trusted North American partners.
               </p>
             </div>
           </motion.div>
@@ -345,7 +373,7 @@ export default function Home() {
             variants={fadeUp}
           >
             <div className="text-xs uppercase tracking-[0.3em] text-muted">
-              Work with us
+              Opportunities
             </div>
             <h2 className="mt-6 font-display text-4xl font-semibold">
               Choose the path that fits your pace.
@@ -353,27 +381,27 @@ export default function Home() {
           </motion.div>
           {[
             {
-              title: "1:1 Coaching",
+              title: "Join our team",
               bullets: [
-                "Monthly strategy calls",
-                "Custom goal tracking",
-                "Priority support"
+                "Official Licensing",
+                "Structured Education",
+                "Long-lasting support"
               ]
             },
             {
-              title: "Blueprint",
+              title: "Social Media Collaboration",
               bullets: [
-                "Structured 6-week curriculum",
-                "Action scorecards",
-                "Template library"
+                "Educational content",
+                "Brand Development",
+                "Exclusive strategies"
               ]
             },
             {
               title: "Community",
               bullets: [
-                "Weekly accountability pods",
-                "Live workshops",
-                "Peer feedback loops"
+                "Mindset Growth",
+                "Private Networking",
+                "Direct Team Support"
               ]
             }
           ].map((card) => (
@@ -421,9 +449,11 @@ export default function Home() {
               FAQ
             </div>
             <h2 className="mt-6 font-display text-4xl font-semibold">
-              Clear answers, zero fluff.
+              Clear rules, Clear goals.
             </h2>
             <p className="mt-4 text-sm text-muted">
+              
+
               Everything you need to decide if this is the right next step for
               your financial growth.
             </p>
@@ -443,16 +473,16 @@ export default function Home() {
       <footer className="border-t border-black/10 py-10">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 px-6 sm:flex-row sm:items-center">
           <div className="text-xs uppercase tracking-[0.2em] text-muted">
-            © 2026 Grow Finance
+            © 2026 Wealth You
           </div>
           <div className="flex items-center gap-6 text-xs uppercase tracking-[0.2em] text-muted">
-            <a className="focus-ring" href="#about">
+            <a className="focus-ring" href="#about" onClick={() => handleFocusNav("#about")}>
               About
             </a>
-            <a className="focus-ring" href="#work">
-              Work
+            <a className="focus-ring" href="#work" onClick={() => handleFocusNav("#work")}>
+              Opportunities
             </a>
-            <a className="focus-ring" href="#faq">
+            <a className="focus-ring" href="#faq" onClick={() => handleFocusNav("#faq")}>
               FAQ
             </a>
           </div>
